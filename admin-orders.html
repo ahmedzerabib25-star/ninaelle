@@ -189,7 +189,7 @@
     <span class="sidebar-role">لوحة الإدارة</span>
   </div>
   <a href="./admin-orders.html" class="nav-item active"><span>📦</span> الطلبات</a>
-  <a href="./ninaelle.html" class="nav-item" target="_blank"><span>🌐</span> عرض الموقع</a>
+  <a href="./index.html" class="nav-item" target="_blank"><span>🌐</span> عرض الموقع</a>
   <div class="sidebar-footer">
     <button class="btn-logout" onclick="logout()">🚪 تسجيل الخروج</button>
   </div>
@@ -210,7 +210,7 @@
     <div class="setup-banner-icon">⚙️</div>
     <div class="setup-banner-text">
       <strong>خطوة مطلوبة:</strong> لم يتم إضافة رابط Apps Script بعد.<br>
-      ابحث عن <code>YOUR_APPS_SCRIPT_URL_HERE</code> في ملفَّي <code>ninaelle.html</code> و <code>admin-orders.html</code> واستبدله بالرابط الذي ستحصل عليه من Google.
+      ابحث عن <code>https://script.google.com/macros/s/AKfycbziQ3xg2ETrlOgvlnwgkJwGcWxu8Jvf2bq1wqHP33mrwxYl6I6LhKCMkUErLoHA55Xz-g/exec</code> في ملفَّي <code>index.html</code> و <code>admin-orders.html</code> واستبدله بالرابط الذي ستحصل عليه من Google.
     </div>
   </div>
 
@@ -296,7 +296,7 @@
     weekday:'long', year:'numeric', month:'long', day:'numeric'
   });
 
-  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbziQ3xg2ETrlOgvlnwgkJwGcWxu8Jvf2bq1wqHP33mrwxYl6I6LhKCMkUErLoHA55Xz-g/exec') {
     document.getElementById('setupBanner').classList.add('show');
   }
 
@@ -310,7 +310,7 @@
   }
 
   function loadOrders() {
-    if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') { renderOrders([]); return; }
+    if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbziQ3xg2ETrlOgvlnwgkJwGcWxu8Jvf2bq1wqHP33mrwxYl6I6LhKCMkUErLoHA55Xz-g/exec') { renderOrders([]); return; }
     const btn = document.getElementById('refreshBtn');
     btn.classList.add('spinning');
     hideError();

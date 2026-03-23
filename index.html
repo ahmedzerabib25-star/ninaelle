@@ -802,12 +802,54 @@
 
     <div class="hero-slider">
       <div class="slider-frame">
-      <div class="slide s1 active">
-  <img src="./images/product2.jpg" class="slide-img" alt="كريم الورد">
-</div>
+        <!-- SLIDE 1 -->
+        <div class="slide s1 active">
+          <div class="slide-placeholder">
+            <div class="product-mock">
+              <div class="product-mock-inner">
+                <div style="font-size:2.5rem">🌹</div>
+                <div style="font-size:0.85rem;margin-top:6px">كريم الورد</div>
+              </div>
+            </div>
+            <div class="slide-label">كريم العناية بالبشرة بالورد</div>
+          </div>
         </div>
         <!-- SLIDE 2 -->
-      
+        <div class="slide s2">
+          <div class="slide-placeholder">
+            <div class="product-mock">
+              <div class="product-mock-inner">
+                <div style="font-size:2.5rem">🌿</div>
+                <div style="font-size:0.85rem;margin-top:6px">زيت الأرغان</div>
+              </div>
+            </div>
+            <div class="slide-label">زيت الأرغان الطبيعي الفاخر</div>
+          </div>
+        </div>
+        <!-- SLIDE 3 -->
+        <div class="slide s3">
+          <div class="slide-placeholder">
+            <div class="product-mock">
+              <div class="product-mock-inner">
+                <div style="font-size:2.5rem">✨</div>
+                <div style="font-size:0.85rem;margin-top:6px;color:rgba(255,255,255,0.9)">سيروم الإشراق</div>
+              </div>
+            </div>
+            <div class="slide-label">سيروم الإشراق والترطيب</div>
+          </div>
+        </div>
+        <!-- SLIDE 4 -->
+        <div class="slide s4">
+          <div class="slide-placeholder">
+            <div class="product-mock">
+              <div class="product-mock-inner">
+                <div style="font-size:2.5rem">🍯</div>
+                <div style="font-size:0.85rem;margin-top:6px">قناع العسل</div>
+              </div>
+            </div>
+            <div class="slide-label">قناع العسل المغذّي</div>
+          </div>
+        </div>
 
         <div class="slider-dots" id="dots"></div>
 
@@ -1135,8 +1177,45 @@
     } else clearError('delivery');
 
     if (valid) {
-      document.getElementById('overlay').classList.add('show');
-      document.body.style.overflow = 'hidden';
+      // ── SEND ORDER TO GOOGLE SHEETS ──
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziQ3xg2ETrlOgvlnwgkJwGcWxu8Jvf2bq1wqHP33mrwxYl6I6LhKCMkUErLoHA55Xz-g/exec'; // ← ضعي رابط Apps Script هنا
+
+      const wilayaEl = document.getElementById('wilaya');
+      const wilayaText = wilayaEl.options[wilayaEl.selectedIndex].text.replace(/^\d+ - /, '');
+      const priceText = document.getElementById('priceDisplay').textContent.replace(/[^\d]/g,'').trim();
+
+      const buyBtn = document.querySelector('.btn-buy');
+      buyBtn.disabled = true;
+      buyBtn.textContent = '⏳ جاري إرسال الطلب...';
+
+      const url = new URL(SCRIPT_URL);
+      url.searchParams.set('action',      'addOrder');
+      url.searchParams.set('fullname',    fullname);
+      url.searchParams.set('phone',       phone);
+      url.searchParams.set('wilaya',      wilayaText);
+      url.searchParams.set('wilayaCode',  document.getElementById('wilaya').value);
+      url.searchParams.set('commune',     commune);
+      url.searchParams.set('delivery',    delivery);
+      url.searchParams.set('product',     'كريم العناية بالبشرة بالورد');
+      url.searchParams.set('price',       priceText);
+
+      fetch(url.toString(), { method: 'GET' })
+        .then(r => r.json())
+        .then(data => {
+          if (data.ok) {
+            document.getElementById('overlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+          } else {
+            alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مجدداً.');
+          }
+        })
+        .catch(() => {
+          alert('تعذّر الاتصال، تحقّقي من الإنترنت وأعيدي المحاولة.');
+        })
+        .finally(() => {
+          buyBtn.disabled = false;
+          buyBtn.textContent = '🛍 تأكيدي طلبي الآن';
+        });
     } else {
       const firstErr = document.querySelector('.error');
       if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });

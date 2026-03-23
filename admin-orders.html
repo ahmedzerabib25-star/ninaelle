@@ -7,554 +7,338 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
   :root {
-    --rose: #C8926A;
-    --rose-light: #E8C4A8;
-    --warm: #8B5E3C;
-    --deep: #2C1A0E;
-    --cream: #FDF6EE;
-    --blush: #F2D9C8;
-    --gold: #D4A853;
-    --bg: #1A0F07;
-    --card: #231308;
-    --border: rgba(200,146,106,0.15);
-    --text: rgba(255,255,255,0.85);
-    --muted: rgba(255,255,255,0.35);
-    --confirmed: #4CAF82;
-    --pending: #D4A853;
-    --delivered: #6BA3BE;
+    --rose: #C8926A; --rose-light: #E8C4A8; --warm: #8B5E3C;
+    --deep: #2C1A0E; --bg: #1A0F07; --card: #231308;
+    --border: rgba(200,146,106,0.15); --text: rgba(255,255,255,0.85);
+    --muted: rgba(255,255,255,0.35); --gold: #D4A853;
+    --confirmed: #4CAF82; --pending: #D4A853; --delivered: #6BA3BE;
   }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; direction:rtl; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Tajawal', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    direction: rtl;
-  }
-
-  /* ── SIDEBAR ── */
   .sidebar {
-    position: fixed;
-    top: 0; right: 0;
-    width: 230px;
-    height: 100vh;
-    background: var(--card);
-    border-left: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    padding: 30px 0;
-    z-index: 100;
+    position:fixed; top:0; right:0; width:230px; height:100vh;
+    background:var(--card); border-left:1px solid var(--border);
+    display:flex; flex-direction:column; padding:30px 0; z-index:100;
   }
-
-  .sidebar-brand {
-    padding: 0 24px 30px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 20px;
-  }
-  .sidebar-logo {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    color: var(--rose);
-    display: block;
-  }
-  .sidebar-role {
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
+  .sidebar-brand { padding:0 24px 28px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+  .sidebar-logo { font-family:'Playfair Display',serif; font-style:italic; font-size:1.5rem; color:var(--rose); display:block; }
+  .sidebar-role { font-size:.72rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 24px;
-    color: var(--muted);
-    font-size: 0.92rem;
-    font-weight: 500;
-    cursor: pointer;
-    border-right: 3px solid transparent;
-    transition: all .25s;
-    text-decoration: none;
+    display:flex; align-items:center; gap:12px; padding:12px 24px;
+    color:var(--muted); font-size:.92rem; font-weight:500;
+    cursor:pointer; border-right:3px solid transparent; transition:all .25s; text-decoration:none;
   }
-  .nav-item.active {
-    color: var(--rose);
-    background: rgba(200,146,106,0.06);
-    border-right-color: var(--rose);
-  }
-  .nav-item:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
-
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 20px 24px;
-    border-top: 1px solid var(--border);
-  }
+  .nav-item.active { color:var(--rose); background:rgba(200,146,106,.06); border-right-color:var(--rose); }
+  .nav-item:hover:not(.active) { color:var(--text); background:rgba(255,255,255,.03); }
+  .sidebar-footer { margin-top:auto; padding:20px 24px; border-top:1px solid var(--border); }
   .btn-logout {
-    width: 100%;
-    padding: 10px;
-    background: rgba(224,82,82,0.1);
-    border: 1px solid rgba(224,82,82,0.25);
-    border-radius: 10px;
-    color: #f08080;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .3s;
+    width:100%; padding:10px; background:rgba(224,82,82,.1);
+    border:1px solid rgba(224,82,82,.25); border-radius:10px; color:#f08080;
+    font-family:'Tajawal',sans-serif; font-size:.88rem; font-weight:600; cursor:pointer; transition:all .3s;
   }
-  .btn-logout:hover { background: rgba(224,82,82,0.18); }
+  .btn-logout:hover { background:rgba(224,82,82,.2); }
 
-  /* ── MAIN ── */
-  .main {
-    margin-right: 230px;
-    min-height: 100vh;
-    padding: 36px 40px;
+  .main { margin-right:230px; min-height:100vh; padding:36px 40px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:36px; flex-wrap:wrap; gap:12px; }
+  .page-title { font-size:1.6rem; font-weight:900; color:white; }
+  .page-title span { color:var(--rose); }
+  .topbar-right { display:flex; align-items:center; gap:12px; }
+  .topbar-date { font-size:.82rem; color:var(--muted); }
+  .btn-refresh {
+    display:flex; align-items:center; gap:6px; padding:8px 18px; border-radius:50px;
+    border:1px solid var(--border); background:transparent; color:var(--rose);
+    font-family:'Tajawal',sans-serif; font-size:.85rem; font-weight:700; cursor:pointer; transition:all .25s;
   }
+  .btn-refresh:hover { background:rgba(200,146,106,.08); border-color:var(--rose); }
+  .btn-refresh.spinning .ri { animation:spin .6s linear infinite; }
+  .ri { display:inline-block; }
+  @keyframes spin { to { transform:rotate(360deg); } }
 
-  /* ── TOPBAR ── */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 36px;
-  }
-  .page-title {
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: white;
-  }
-  .page-title span { color: var(--rose); }
-  .topbar-date {
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
-  /* ── STATS ── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 32px;
-  }
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
   .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px 24px;
-    position: relative;
-    overflow: hidden;
-    transition: transform .3s;
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:22px 24px; position:relative; overflow:hidden; transition:transform .3s;
   }
-  .stat-card:hover { transform: translateY(-3px); }
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--accent, var(--rose));
-  }
-  .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  .stat-value { font-size: 2rem; font-weight: 900; color: white; }
-  .stat-sub { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
-  .stat-icon { position: absolute; top: 20px; left: 20px; font-size: 1.6rem; opacity: 0.15; }
+  .stat-card:hover { transform:translateY(-3px); }
+  .stat-card::before { content:''; position:absolute; top:0; right:0; width:3px; height:100%; background:var(--accent,var(--rose)); }
+  .stat-label { font-size:.72rem; color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+  .stat-value { font-size:2rem; font-weight:900; color:white; }
+  .stat-sub { font-size:.72rem; color:var(--muted); margin-top:4px; }
+  .stat-icon { position:absolute; top:18px; left:18px; font-size:1.6rem; opacity:.12; }
 
-  /* ── FILTER BAR ── */
-  .filter-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+  .filter-bar { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
   .filter-btn {
-    padding: 8px 18px;
-    border-radius: 50px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .25s;
+    padding:8px 18px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-family:'Tajawal',sans-serif;
+    font-size:.85rem; font-weight:600; cursor:pointer; transition:all .25s;
   }
-  .filter-btn.active, .filter-btn:hover {
-    background: rgba(200,146,106,0.12);
-    border-color: var(--rose);
-    color: var(--rose);
-  }
-  .filter-spacer { flex: 1; }
-  .orders-count {
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
-  .orders-count strong { color: var(--rose); }
+  .filter-btn.active, .filter-btn:hover { background:rgba(200,146,106,.12); border-color:var(--rose); color:var(--rose); }
+  .filter-spacer { flex:1; }
+  .orders-count { font-size:.82rem; color:var(--muted); }
+  .orders-count strong { color:var(--rose); }
 
-  /* ── TABLE ── */
-  .table-wrap {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
+  .setup-banner {
+    background:rgba(212,168,83,.08); border:1px solid rgba(212,168,83,.3);
+    border-radius:14px; padding:18px 24px; margin-bottom:24px;
+    display:none; align-items:flex-start; gap:14px;
+  }
+  .setup-banner.show { display:flex; }
+  .setup-banner-icon { font-size:1.4rem; flex-shrink:0; }
+  .setup-banner-text { font-size:.88rem; color:rgba(255,255,255,.65); line-height:1.8; }
+  .setup-banner-text strong { color:var(--gold); }
+  .setup-banner-text code {
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
+    border-radius:6px; padding:2px 8px; font-size:.8rem; color:#aef; word-break:break-all;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
+  .error-banner {
+    background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.25);
+    border-radius:12px; padding:14px 20px; margin-bottom:20px;
+    color:#f08080; font-size:.88rem; display:none; align-items:center; gap:10px;
   }
+  .error-banner.show { display:flex; }
+
+  .table-wrap { background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; }
   thead th {
-    padding: 16px 20px;
-    text-align: right;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.02);
-    white-space: nowrap;
+    padding:15px 18px; text-align:right; font-size:.7rem; font-weight:700;
+    color:var(--muted); letter-spacing:1.5px; text-transform:uppercase;
+    border-bottom:1px solid var(--border); background:rgba(255,255,255,.02); white-space:nowrap;
   }
-  tbody tr {
-    border-bottom: 1px solid rgba(200,146,106,0.06);
-    transition: background .2s;
-    animation: rowIn .4s ease both;
-  }
-  @keyframes rowIn {
-    from { opacity: 0; transform: translateX(10px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-  tbody tr:hover { background: rgba(200,146,106,0.04); }
-  tbody tr:last-child { border-bottom: none; }
-  td {
-    padding: 16px 20px;
-    font-size: 0.9rem;
-    color: var(--text);
-    vertical-align: middle;
-  }
+  tbody tr { border-bottom:1px solid rgba(200,146,106,.06); transition:background .2s; }
+  tbody tr:hover { background:rgba(200,146,106,.04); }
+  tbody tr:last-child { border-bottom:none; }
+  td { padding:14px 18px; font-size:.87rem; color:var(--text); vertical-align:middle; }
 
-  .order-id {
-    font-family: monospace;
-    font-size: 0.78rem;
-    color: var(--muted);
-    background: rgba(255,255,255,0.04);
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
+  .order-id { font-family:monospace; font-size:.74rem; color:var(--muted); background:rgba(255,255,255,.04); padding:3px 8px; border-radius:6px; }
+  .customer-name { font-weight:700; color:white; }
+  .customer-phone { font-size:.76rem; color:var(--muted); margin-top:2px; direction:ltr; text-align:right; }
+  .wilaya-name { color:white; font-weight:600; font-size:.84rem; }
+  .commune-name { color:var(--muted); font-size:.74rem; margin-top:2px; }
 
-  .customer-name { font-weight: 700; color: white; }
-  .customer-phone { font-size: 0.8rem; color: var(--muted); margin-top: 2px; direction: ltr; text-align: right; }
+  .delivery-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:50px; font-size:.74rem; font-weight:700; }
+  .delivery-home   { background:rgba(200,146,106,.12); color:var(--rose-light); }
+  .delivery-office { background:rgba(107,163,190,.12); color:#8fc5d8; }
 
-  .location { font-size: 0.85rem; }
-  .location .wilaya { color: white; font-weight: 600; }
-  .location .commune { color: var(--muted); font-size: 0.78rem; margin-top: 1px; }
+  .price-cell { font-weight:800; color:var(--gold); font-size:.9rem; white-space:nowrap; }
 
-  .delivery-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 12px;
-    border-radius: 50px;
-    font-size: 0.78rem;
-    font-weight: 700;
-  }
-  .delivery-home { background: rgba(200,146,106,0.12); color: var(--rose-light); }
-  .delivery-office { background: rgba(107,163,190,0.12); color: #8fc5d8; }
+  .status-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:50px; font-size:.74rem; font-weight:700; }
+  .status-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .status-pending   { background:rgba(212,168,83,.12); color:var(--pending); }
+  .status-confirmed { background:rgba(76,175,130,.12); color:var(--confirmed); }
+  .status-delivered { background:rgba(107,163,190,.12); color:var(--delivered); }
 
-  .price-cell {
-    font-weight: 800;
-    color: var(--gold);
-    font-size: 0.95rem;
-    white-space: nowrap;
-  }
-
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    border-radius: 50px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    cursor: default;
-  }
-  .status-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-  .status-pending  { background: rgba(212,168,83,0.12); color: var(--pending); }
-  .status-confirmed { background: rgba(76,175,130,0.12); color: var(--confirmed); }
-  .status-delivered { background: rgba(107,163,190,0.12); color: var(--delivered); }
-
-  .actions { display: flex; gap: 8px; }
+  .actions { display:flex; gap:6px; flex-wrap:wrap; }
   .action-btn {
-    padding: 6px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all .25s;
-    white-space: nowrap;
+    padding:5px 11px; border-radius:8px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-family:'Tajawal',sans-serif;
+    font-size:.74rem; font-weight:700; cursor:pointer; transition:all .25s; white-space:nowrap;
   }
-  .action-btn:hover { border-color: var(--rose); color: var(--rose); background: rgba(200,146,106,0.08); }
-  .action-btn.confirm-btn:hover { border-color: var(--confirmed); color: var(--confirmed); background: rgba(76,175,130,0.08); }
-  .action-btn.deliver-btn:hover { border-color: var(--delivered); color: var(--delivered); background: rgba(107,163,190,0.08); }
-  .action-btn.delete-btn:hover { border-color: #e05252; color: #e05252; background: rgba(224,82,82,0.08); }
+  .action-btn:hover             { border-color:var(--rose);      color:var(--rose);      background:rgba(200,146,106,.08); }
+  .action-btn.c-btn:hover       { border-color:var(--confirmed); color:var(--confirmed); background:rgba(76,175,130,.08); }
+  .action-btn.d-btn:hover       { border-color:var(--delivered); color:var(--delivered); background:rgba(107,163,190,.08); }
+  .action-btn.del-btn:hover     { border-color:#e05252;          color:#e05252;          background:rgba(224,82,82,.08); }
+  .action-btn:disabled { opacity:.4; cursor:not-allowed; }
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    padding: 80px 40px;
-    text-align: center;
-  }
-  .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
-  .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
-  .empty-sub { font-size: 0.88rem; color: rgba(255,255,255,0.2); }
+  .order-date { font-size:.72rem; color:var(--muted); }
 
-  /* ── ORDER DATE ── */
-  .order-date { font-size: 0.78rem; color: var(--muted); }
+  .loading-row td { text-align:center; padding:60px; color:var(--muted); }
+  .spinner { display:inline-block; width:30px; height:30px; border:3px solid rgba(200,146,106,.2); border-top-color:var(--rose); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:12px; }
 
-  /* ── TOAST ── */
+  .empty-state { padding:80px 40px; text-align:center; }
+  .empty-icon { font-size:3rem; margin-bottom:16px; opacity:.4; }
+  .empty-title { font-size:1.1rem; font-weight:700; color:var(--muted); margin-bottom:8px; }
+  .empty-sub { font-size:.85rem; color:rgba(255,255,255,.2); }
+
   .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 12px 24px;
-    font-size: 0.88rem;
-    color: var(--text);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    opacity: 0;
-    transition: all .35s cubic-bezier(.34,1.56,.64,1);
-    z-index: 999;
-    pointer-events: none;
-    white-space: nowrap;
+    position:fixed; bottom:30px; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--card); border:1px solid var(--border); border-radius:50px;
+    padding:12px 28px; font-size:.88rem; color:var(--text);
+    box-shadow:0 10px 40px rgba(0,0,0,.4);
+    opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1);
+    z-index:999; pointer-events:none; white-space:nowrap;
   }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* ── MOBILE TOPBAR ── */
   .mobile-header {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px;
-    z-index: 200;
-    align-items: center;
-    justify-content: space-between;
+    display:none; position:fixed; top:0; left:0; right:0;
+    background:var(--card); border-bottom:1px solid var(--border);
+    padding:14px 20px; z-index:200; align-items:center; justify-content:space-between;
   }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1100px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 800px) {
-    .sidebar { display: none; }
-    .mobile-header { display: flex; }
-    .main { margin-right: 0; padding: 90px 16px 24px; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .table-wrap { overflow-x: auto; }
-    table { min-width: 700px; }
-    .filter-bar { gap: 8px; }
-  }
-  @media (max-width: 480px) {
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .main { padding: 80px 12px 20px; }
+  @media(max-width:1100px) { .stats-row { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:800px) {
+    .sidebar { display:none; } .mobile-header { display:flex; }
+    .main { margin-right:0; padding:82px 16px 24px; }
+    .stats-row { grid-template-columns:repeat(2,1fr); gap:12px; }
+    .table-wrap { overflow-x:auto; } table { min-width:760px; }
   }
 </style>
 </head>
 <body>
 
-<!-- MOBILE HEADER -->
 <div class="mobile-header">
   <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--rose);font-size:1.3rem">NinaElle</span>
   <button onclick="logout()" class="btn-logout" style="width:auto;padding:7px 16px">خروج</button>
 </div>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <span class="sidebar-logo">NinaElle</span>
     <span class="sidebar-role">لوحة الإدارة</span>
   </div>
-
-  <a href="./admin-orders.html" class="nav-item active">
-    <span>📦</span> الطلبات
-  </a>
-  <a href="./ninaelle.html" class="nav-item" target="_blank">
-    <span>🌐</span> عرض الموقع
-  </a>
-
+  <a href="./admin-orders.html" class="nav-item active"><span>📦</span> الطلبات</a>
+  <a href="./ninaelle.html" class="nav-item" target="_blank"><span>🌐</span> عرض الموقع</a>
   <div class="sidebar-footer">
     <button class="btn-logout" onclick="logout()">🚪 تسجيل الخروج</button>
   </div>
 </aside>
 
-<!-- MAIN CONTENT -->
 <main class="main">
-
-  <!-- TOPBAR -->
   <div class="topbar">
-    <div>
-      <div class="page-title">الطلبات <span>الواردة</span></div>
+    <div class="page-title">الطلبات <span>الواردة</span></div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbarDate"></span>
+      <button class="btn-refresh" id="refreshBtn" onclick="loadOrders()">
+        <span class="ri">↻</span> تحديث
+      </button>
     </div>
-    <div class="topbar-date" id="topbarDate"></div>
   </div>
 
-  <!-- STATS -->
+  <div class="setup-banner" id="setupBanner">
+    <div class="setup-banner-icon">⚙️</div>
+    <div class="setup-banner-text">
+      <strong>خطوة مطلوبة:</strong> لم يتم إضافة رابط Apps Script بعد.<br>
+      ابحث عن <code>YOUR_APPS_SCRIPT_URL_HERE</code> في ملفَّي <code>ninaelle.html</code> و <code>admin-orders.html</code> واستبدله بالرابط الذي ستحصل عليه من Google.
+    </div>
+  </div>
+
+  <div class="error-banner" id="errorBanner">
+    <span>❌</span><span id="errorText">تعذّر تحميل الطلبات</span>
+  </div>
+
   <div class="stats-row">
     <div class="stat-card" style="--accent:var(--rose)">
       <div class="stat-label">إجمالي الطلبات</div>
-      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-value" id="statTotal">—</div>
       <div class="stat-sub">كل الطلبات</div>
       <div class="stat-icon">📦</div>
     </div>
     <div class="stat-card" style="--accent:var(--pending)">
       <div class="stat-label">قيد الانتظار</div>
-      <div class="stat-value" id="statPending">0</div>
+      <div class="stat-value" id="statPending">—</div>
       <div class="stat-sub">بانتظار التأكيد</div>
       <div class="stat-icon">⏳</div>
     </div>
     <div class="stat-card" style="--accent:var(--confirmed)">
       <div class="stat-label">مؤكدة</div>
-      <div class="stat-value" id="statConfirmed">0</div>
+      <div class="stat-value" id="statConfirmed">—</div>
       <div class="stat-sub">تم التأكيد</div>
       <div class="stat-icon">✅</div>
     </div>
     <div class="stat-card" style="--accent:var(--delivered)">
-      <div class="stat-label">إجمالي المبيعات</div>
-      <div class="stat-value" id="statRevenue">0</div>
-      <div class="stat-sub">دج</div>
+      <div class="stat-label">المبيعات</div>
+      <div class="stat-value" id="statRevenue">—</div>
+      <div class="stat-sub">دج إجمالي</div>
       <div class="stat-icon">💰</div>
     </div>
   </div>
 
-  <!-- FILTER BAR -->
   <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all', this)">الكل</button>
-    <button class="filter-btn" onclick="setFilter('pending', this)">⏳ انتظار</button>
-    <button class="filter-btn" onclick="setFilter('confirmed', this)">✅ مؤكد</button>
-    <button class="filter-btn" onclick="setFilter('delivered', this)">🚚 مُسلَّم</button>
+    <button class="filter-btn active" onclick="setFilter('all',this)">الكل</button>
+    <button class="filter-btn" onclick="setFilter('انتظار',this)">⏳ انتظار</button>
+    <button class="filter-btn" onclick="setFilter('مؤكد',this)">✅ مؤكد</button>
+    <button class="filter-btn" onclick="setFilter('مُسلَّم',this)">🚚 مُسلَّم</button>
     <div class="filter-spacer"></div>
     <div class="orders-count">عرض <strong id="shownCount">0</strong> طلب</div>
   </div>
 
-  <!-- TABLE -->
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>#</th>
-          <th>العميل</th>
-          <th>الموقع</th>
-          <th>التوصيل</th>
-          <th>المنتج</th>
-          <th>السعر</th>
-          <th>التاريخ</th>
-          <th>الحالة</th>
-          <th>إجراءات</th>
+          <th>#</th><th>العميل</th><th>الموقع</th><th>التوصيل</th>
+          <th>المنتج</th><th>السعر</th><th>التاريخ</th><th>الحالة</th><th>إجراءات</th>
         </tr>
       </thead>
-      <tbody id="ordersBody"></tbody>
+      <tbody id="ordersBody">
+        <tr class="loading-row">
+          <td colspan="9"><div class="spinner"></div><div>جاري تحميل الطلبات...</div></td>
+        </tr>
+      </tbody>
     </table>
     <div class="empty-state" id="emptyState" style="display:none">
       <div class="empty-icon">📭</div>
       <div class="empty-title">لا توجد طلبات بعد</div>
-      <div class="empty-sub">ستظهر هنا الطلبات الواردة من الموقع</div>
+      <div class="empty-sub">ستظهر هنا الطلبات الواردة من الموقع تلقائياً</div>
     </div>
   </div>
-
 </main>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── AUTH GUARD ──
+  // ══════════════════════════════════════════
+  //  ← ضعي رابط Apps Script هنا
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziQ3xg2ETrlOgvlnwgkJwGcWxu8Jvf2bq1wqHP33mrwxYl6I6LhKCMkUErLoHA55Xz-g/exec'; // ← ضعي رابط Apps Script هنا
+  // ══════════════════════════════════════════
+
   if (sessionStorage.getItem('ninaelle_admin') !== 'true') {
     window.location.href = './admin-login.html';
   }
-
   function logout() {
     sessionStorage.removeItem('ninaelle_admin');
     window.location.href = './admin-login.html';
   }
 
-  // ── DATE ──
-  const now = new Date();
-  document.getElementById('topbarDate').textContent = now.toLocaleDateString('ar-DZ', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('ar-DZ', {
+    weekday:'long', year:'numeric', month:'long', day:'numeric'
   });
 
-  // ── STORAGE ──
-  const STORAGE_KEY = 'ninaelle_orders';
-
-  function getOrders() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch { return []; }
-  }
-  function saveOrders(orders) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    document.getElementById('setupBanner').classList.add('show');
   }
 
-  // ── SEED EXAMPLE ORDER if empty ──
-  (function seedExample() {
-    const orders = getOrders();
-    if (orders.length === 0) {
-      orders.push({
-        id: 'ORD-0001',
-        fullname: 'فاطمة بن علي',
-        phone: '0551234567',
-        wilaya: 'الجزائر',
-        wilayaCode: '16',
-        commune: 'بن عكنون',
-        delivery: 'home',
-        product: 'كريم العناية بالبشرة بالورد',
-        price: 3000,
-        status: 'pending',
-        date: new Date().toISOString()
-      });
-      saveOrders(orders);
-    }
-  })();
-
-  // ── RENDER ──
+  let allOrders = [];
   let currentFilter = 'all';
 
-  function setFilter(filter, btn) {
-    currentFilter = filter;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderOrders();
+  function api(params) {
+    const url = new URL(SCRIPT_URL);
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
+    return fetch(url.toString()).then(r => r.json());
   }
 
-  function renderOrders() {
-    const orders = getOrders();
-    const filtered = currentFilter === 'all'
-      ? orders
-      : orders.filter(o => o.status === currentFilter);
+  function loadOrders() {
+    if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') { renderOrders([]); return; }
+    const btn = document.getElementById('refreshBtn');
+    btn.classList.add('spinning');
+    hideError();
+    api({ action:'getOrders' })
+      .then(data => {
+        if (data.ok) { allOrders = data.orders || []; renderOrders(allOrders); }
+        else showError('خطأ: ' + data.error);
+      })
+      .catch(() => showError('تعذّر الاتصال — تحقق من رابط Apps Script وإعدادات النشر'))
+      .finally(() => btn.classList.remove('spinning'));
+  }
 
-    // stats
-    document.getElementById('statTotal').textContent = orders.length;
-    document.getElementById('statPending').textContent = orders.filter(o => o.status === 'pending').length;
-    document.getElementById('statConfirmed').textContent = orders.filter(o => o.status === 'confirmed').length;
-    const revenue = orders.filter(o => o.status !== 'pending').reduce((s, o) => s + (o.price || 0), 0);
-    document.getElementById('statRevenue').textContent = revenue.toLocaleString('ar-DZ');
-    document.getElementById('shownCount').textContent = filtered.length;
+  function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderOrders(allOrders);
+  }
+
+  function renderOrders(orders) {
+    const filtered = currentFilter === 'all' ? orders : orders.filter(o => o.status === currentFilter);
+
+    document.getElementById('statTotal').textContent     = orders.length;
+    document.getElementById('statPending').textContent   = orders.filter(o=>o.status==='انتظار').length;
+    document.getElementById('statConfirmed').textContent = orders.filter(o=>o.status==='مؤكد').length;
+    const rev = orders.filter(o=>o.status!=='انتظار').reduce((s,o)=>s+Number(o.price||0),0);
+    document.getElementById('statRevenue').textContent   = rev.toLocaleString('ar-DZ');
+    document.getElementById('shownCount').textContent    = filtered.length;
 
     const tbody = document.getElementById('ordersBody');
     tbody.innerHTML = '';
@@ -565,96 +349,70 @@
     }
     document.getElementById('emptyState').style.display = 'none';
 
-    filtered.slice().reverse().forEach((order, i) => {
-      const tr = document.createElement('tr');
-      tr.style.animationDelay = (i * 0.04) + 's';
+    const statusCls = { 'انتظار':'status-pending', 'مؤكد':'status-confirmed', 'مُسلَّم':'status-delivered' };
 
-      const deliveryLabel = order.delivery === 'home'
+    [...filtered].reverse().forEach(order => {
+      const tr = document.createElement('tr');
+      const isHome = order.delivery === 'توصيل للبيت';
+      const delBadge = isHome
         ? '<span class="delivery-badge delivery-home">🏠 بيت</span>'
         : '<span class="delivery-badge delivery-office">📮 مكتب بريد</span>';
+      const sCls = statusCls[order.status] || 'status-pending';
 
-      const statusMap = {
-        pending:   { label: 'انتظار', cls: 'status-pending' },
-        confirmed: { label: 'مؤكد',   cls: 'status-confirmed' },
-        delivered: { label: 'مُسلَّم', cls: 'status-delivered' }
-      };
-      const s = statusMap[order.status] || statusMap.pending;
-
-      const dateStr = order.date
-        ? new Date(order.date).toLocaleDateString('ar-DZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-        : '—';
-
-      // action buttons based on status
-      let actionBtns = '';
-      if (order.status === 'pending') {
-        actionBtns = `
-          <button class="action-btn confirm-btn" onclick="updateStatus('${order.id}','confirmed')">✅ تأكيد</button>
-          <button class="action-btn delete-btn" onclick="deleteOrder('${order.id}')">🗑</button>`;
-      } else if (order.status === 'confirmed') {
-        actionBtns = `
-          <button class="action-btn deliver-btn" onclick="updateStatus('${order.id}','delivered')">🚚 تسليم</button>
-          <button class="action-btn delete-btn" onclick="deleteOrder('${order.id}')">🗑</button>`;
+      let btns = '';
+      if (order.status === 'انتظار') {
+        btns = `<button class="action-btn c-btn"   onclick="changeStatus(${order.rowIndex},'مؤكد',this)">✅ تأكيد</button>
+                <button class="action-btn del-btn" onclick="removeOrder(${order.rowIndex},this)">🗑</button>`;
+      } else if (order.status === 'مؤكد') {
+        btns = `<button class="action-btn d-btn"   onclick="changeStatus(${order.rowIndex},'مُسلَّم',this)">🚚 تسليم</button>
+                <button class="action-btn del-btn" onclick="removeOrder(${order.rowIndex},this)">🗑</button>`;
       } else {
-        actionBtns = `<button class="action-btn delete-btn" onclick="deleteOrder('${order.id}')">🗑 حذف</button>`;
+        btns = `<button class="action-btn del-btn" onclick="removeOrder(${order.rowIndex},this)">🗑 حذف</button>`;
       }
 
       tr.innerHTML = `
-        <td><span class="order-id">${order.id}</span></td>
-        <td>
-          <div class="customer-name">${order.fullname}</div>
-          <div class="customer-phone">${order.phone}</div>
-        </td>
-        <td>
-          <div class="location">
-            <div class="wilaya">${order.wilaya}</div>
-            <div class="commune">${order.commune}</div>
-          </div>
-        </td>
-        <td>${deliveryLabel}</td>
-        <td style="font-size:0.82rem;color:var(--muted);max-width:140px">${order.product || 'منتج NinaElle'}</td>
-        <td><span class="price-cell">${(order.price||0).toLocaleString('ar-DZ')} دج</span></td>
-        <td><span class="order-date">${dateStr}</span></td>
-        <td><span class="status-badge ${s.cls}">${s.label}</span></td>
-        <td><div class="actions">${actionBtns}</div></td>
-      `;
+        <td><span class="order-id">${order.id||'—'}</span></td>
+        <td><div class="customer-name">${order.fullname}</div><div class="customer-phone">${order.phone}</div></td>
+        <td><div class="wilaya-name">${order.wilaya}</div><div class="commune-name">${order.commune}</div></td>
+        <td>${delBadge}</td>
+        <td style="font-size:.78rem;color:var(--muted);max-width:130px">${order.product||'—'}</td>
+        <td><span class="price-cell">${Number(order.price||0).toLocaleString('ar-DZ')} دج</span></td>
+        <td><span class="order-date">${order.date||'—'}</span></td>
+        <td><span class="status-badge ${sCls}">${order.status}</span></td>
+        <td><div class="actions">${btns}</div></td>`;
       tbody.appendChild(tr);
     });
   }
 
-  function updateStatus(id, newStatus) {
-    const orders = getOrders();
-    const idx = orders.findIndex(o => o.id === id);
-    if (idx === -1) return;
-    orders[idx].status = newStatus;
-    saveOrders(orders);
-    renderOrders();
-    const labels = { confirmed: '✅ تم تأكيد الطلب', delivered: '🚚 تم تسليم الطلب' };
-    showToast(labels[newStatus] || 'تم التحديث');
+  function changeStatus(rowIndex, newStatus, btn) {
+    lockRow(btn);
+    api({ action:'updateStatus', rowIndex, status:newStatus })
+      .then(d => { if(d.ok){ showToast(newStatus==='مؤكد'?'✅ تم التأكيد':'🚚 تم التسليم'); loadOrders(); } else { showToast('❌ خطأ'); unlockRow(btn); } })
+      .catch(()=>{ showToast('❌ خطأ في الاتصال'); unlockRow(btn); });
   }
 
-  function deleteOrder(id) {
+  function removeOrder(rowIndex, btn) {
     if (!confirm('هل أنتِ متأكدة من حذف هذا الطلب؟')) return;
-    const orders = getOrders().filter(o => o.id !== id);
-    saveOrders(orders);
-    renderOrders();
-    showToast('🗑 تم حذف الطلب');
+    lockRow(btn);
+    api({ action:'deleteOrder', rowIndex })
+      .then(d => { if(d.ok){ showToast('🗑 تم الحذف'); loadOrders(); } else { showToast('❌ خطأ'); unlockRow(btn); } })
+      .catch(()=>{ showToast('❌ خطأ في الاتصال'); unlockRow(btn); });
   }
 
-  // ── TOAST ──
+  function lockRow(btn)   { btn.closest('.actions').querySelectorAll('button').forEach(b=>b.disabled=true); }
+  function unlockRow(btn) { btn.closest('.actions').querySelectorAll('button').forEach(b=>b.disabled=false); }
+
+  function showError(msg) { document.getElementById('errorText').textContent=msg; document.getElementById('errorBanner').classList.add('show'); }
+  function hideError()    { document.getElementById('errorBanner').classList.remove('show'); }
+
   let toastTimer;
   function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
   }
 
-  // ── INIT ──
-  renderOrders();
-
-  // live refresh every 30s
-  setInterval(renderOrders, 30000);
+  loadOrders();
+  setInterval(loadOrders, 60000);
 </script>
 </body>
 </html>

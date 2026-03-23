@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NinaElle | لوحة الإدارة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #C8926A;
+    --warm: #8B5E3C;
+    --deep: #2C1A0E;
+    --cream: #FDF6EE;
+    --blush: #F2D9C8;
+    --gold: #D4A853;
+    --error: #e05252;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--deep);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* animated background */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb1 { width: 500px; height: 500px; background: var(--rose); top: -150px; right: -100px; animation-delay: 0s; }
+  .orb2 { width: 350px; height: 350px; background: var(--gold); bottom: -100px; left: -80px; animation-delay: 4s; }
+  .orb3 { width: 200px; height: 200px; background: var(--rose); top: 50%; left: 30%; animation-delay: 8s; opacity: 0.1; }
+
+  @keyframes orbFloat {
+    0%,100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  /* grid overlay */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,146,106,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,146,106,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  .login-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 24px;
+    animation: fadeUp .7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .brand-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-style: italic;
+    color: var(--rose);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .brand-sub {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .login-card {
+    background: rgba(253,246,238,0.05);
+    border: 1px solid rgba(200,146,106,0.2);
+    border-radius: 24px;
+    padding: 44px 40px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .login-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .login-desc {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+  .input-icon {
+    position: absolute;
+    top: 50%; right: 14px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 13px 42px 13px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(200,146,106,0.2);
+    border-radius: 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    color: white;
+    outline: none;
+    transition: all .3s;
+    direction: ltr;
+    text-align: left;
+  }
+  input::placeholder { color: rgba(255,255,255,0.2); }
+  input:focus {
+    border-color: var(--rose);
+    background: rgba(200,146,106,0.08);
+    box-shadow: 0 0 0 4px rgba(200,146,106,0.1);
+  }
+  input.error {
+    border-color: var(--error);
+    animation: shake .4s ease;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .error-msg {
+    margin-top: 14px;
+    background: rgba(224,82,82,0.12);
+    border: 1px solid rgba(224,82,82,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: #f08080;
+    font-size: 0.88rem;
+    text-align: center;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  .btn-login {
+    width: 100%;
+    margin-top: 28px;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--rose), var(--warm));
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 8px 25px rgba(200,146,106,0.3);
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(200,146,106,0.4); }
+  .btn-login:hover::before { opacity: 1; }
+  .btn-login:active { transform: translateY(0); }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .back-link:hover { color: var(--rose); }
+
+  @media (max-width: 480px) {
+    .login-card { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<div class="login-wrapper">
+  <div class="brand">
+    <span class="brand-logo">NinaElle</span>
+    <span class="brand-sub">✦ لوحة الإدارة ✦</span>
+  </div>
+
+  <div class="login-card">
+    <div class="login-title">مرحباً بكِ 👋</div>
+    <p class="login-desc">أدخلي بيانات الدخول للوصول إلى لوحة التحكم</p>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label>اسم المستخدم</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input type="text" id="username" placeholder="ninaelle" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>كلمة المرور</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg">❌ اسم المستخدم أو كلمة المرور غير صحيحة</div>
+
+      <button type="submit" class="btn-login">دخول إلى لوحة التحكم →</button>
+    </form>
+
+    <a href="./ninaelle.html" class="back-link">← العودة إلى الموقع</a>
+  </div>
+</div>
+
+<script>
+  const ADMIN_USER = 'ninaelle';
+  const ADMIN_PASS = '12345678';
+
+  // redirect if already logged in
+  if (sessionStorage.getItem('ninaelle_admin') === 'true') {
+    window.location.href = './admin-orders.html';
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    const errEl = document.getElementById('errorMsg');
+
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      sessionStorage.setItem('ninaelle_admin', 'true');
+      window.location.href = './admin-orders.html';
+    } else {
+      errEl.classList.add('show');
+      document.getElementById('username').classList.add('error');
+      document.getElementById('password').classList.add('error');
+      setTimeout(() => {
+        document.getElementById('username').classList.remove('error');
+        document.getElementById('password').classList.remove('error');
+      }, 600);
+    }
+  });
+
+  ['username','password'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      document.getElementById('errorMsg').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>
